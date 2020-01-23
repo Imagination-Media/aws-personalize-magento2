@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Amazon AWS Personalize integration (https://docs.aws.amazon.com/personalize/index.html)
+ *
+ * Use AWS Personalize to generate recommendations
+ *
+ * @package     ImaginationMedia\AwsPersonalize
+ * @author      Igor Ludgero Miura <igor@imaginationmedia.com>
+ * @copyright   Copyright (c) 2019 - 2020 Imagination Media (https://www.imaginationmedia.com/)
+ * @license     https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Virtual types for export models -->
+    <virtualType name="ExportCustomerModel" type="ImaginationMedia\AwsPersonalize\Model\System\Config\Export">
+        <arguments>
+            <argument name="bucketName" xsi:type="string">personalize/export/customer/bucketName</argument>
+            <argument name="filePath" xsi:type="string">personalize/export/customer/filePath</argument>
+            <argument name="datasetArn" xsi:type="string">personalize/export/customer/datasetArn</argument>
+            <argument name="jobName" xsi:type="string">personalize/export/customer/jobName</argument>
+            <argument name="roleArn" xsi:type="string">personalize/export/customer/roleArn</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ExportProductModel" type="ImaginationMedia\AwsPersonalize\Model\System\Config\Export">
+        <arguments>
+            <argument name="bucketName" xsi:type="string">personalize/export/product/bucketName</argument>
+            <argument name="filePath" xsi:type="string">personalize/export/product/filePath</argument>
+            <argument name="datasetArn" xsi:type="string">personalize/export/product/datasetArn</argument>
+            <argument name="jobName" xsi:type="string">personalize/export/product/jobName</argument>
+            <argument name="roleArn" xsi:type="string">personalize/export/product/roleArn</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ExportInteractionModel" type="ImaginationMedia\AwsPersonalize\Model\System\Config\Export">
+        <arguments>
+            <argument name="bucketName" xsi:type="string">personalize/export/interaction/bucketName</argument>
+            <argument name="filePath" xsi:type="string">personalize/export/interaction/filePath</argument>
+            <argument name="datasetArn" xsi:type="string">personalize/export/interaction/datasetArn</argument>
+            <argument name="jobName" xsi:type="string">personalize/export/interaction/jobName</argument>
+            <argument name="roleArn" xsi:type="string">personalize/export/interaction/roleArn</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Cli commands -->
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="personalize_export_customers" xsi:type="object">ImaginationMedia\AwsPersonalize\Console\Export\Customer</item>
+                <item name="personalize_export_products" xsi:type="object">ImaginationMedia\AwsPersonalize\Console\Export\Product</item>
+                <item name="personalize_export_interactions" xsi:type="object">ImaginationMedia\AwsPersonalize\Console\Export\Interaction</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Config model for each export profile -->
+    <type name="ImaginationMedia\AwsPersonalize\Model\Export\Customer">
+        <arguments>
+            <argument name="exportModel" xsi:type="object">ExportCustomerModel</argument>
+        </arguments>
+    </type>
+    <type name="ImaginationMedia\AwsPersonalize\Model\Export\Product">
+        <arguments>
+            <argument name="exportModel" xsi:type="object">ExportProductModel</argument>
+        </arguments>
+    </type>
+    <type name="ImaginationMedia\AwsPersonalize\Model\Export\Interaction">
+        <arguments>
+            <argument name="exportModel" xsi:type="object">ExportInteractionModel</argument>
+        </arguments>
+    </type>
+
+    <!-- Publish a new event when a new order is created -->
+    <type name="Magento\Sales\Model\Service\OrderService">
+        <plugin name="after_new_order" type="ImaginationMedia\AwsPersonalize\Plugin\Sales\Model\Service\OrderService"
+                sortOrder="1" disabled="false" />
+    </type>
+</config>

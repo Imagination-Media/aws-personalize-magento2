@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * Amazon AWS Personalize integration (https://docs.aws.amazon.com/personalize/index.html)
+ *
+ * Use AWS Personalize to generate recommendations
+ *
+ * @package     ImaginationMedia\AwsPersonalize
+ * @author      Igor Ludgero Miura <igor@imaginationmedia.com>
+ * @copyright   Copyright (c) 2019 - 2020 Imagination Media (https://www.imaginationmedia.com/)
+ * @license     https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+
+declare(strict_types=1);
+
+use ImaginationMedia\AwsPersonalize\Helper\Block;
+
+/**
+ * @var $this Magento\Catalog\Block\Product\ProductList\Related|Magento\Framework\View\Element\Template
+ * @var $personalizeHelper Block
+ */
+
+$personalizeHelper = $this->helper(Block::class);
+
+$class = "product-recommendation";
+$type = $block->getType();
+
+if ($type === "related") {
+    $title = __("Related Products");
+    $productId = (int)$this->getProduct()->getId();
+} elseif ($type === "recommendation") {
+    $title = __("We also recommend you:");
+    $productId = 0;
+}
+
+?>
+
+<?php if ($personalizeHelper->isCustomerLoggedIn()) : ?>
+    <div class="block-content content aws-personalize-<?= $type ?>" aria-labelledby="block-<?= $class ?>-heading" style="display: none;">
+        <div class="block-title title">
+            <strong id="block-<?= $type ?>-heading" role="heading" aria-level="2"><?= /* @escapeNotVerified */
+                $title ?></strong>
+        </div>
+        <div class="products wrapper grid products-grid products-<?= $type ?>">
+            <ol class="products list items product-items">
+            </ol>
+        </div>
+    </div>
+
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "personalize_recommendations": {
+                            "component": "ImaginationMedia_AwsPersonalize/js/product/recommendation",
+                            "controllerUrl": "<?= $this->getUrl('personalize/recommendation/index') ?>",
+                            "productId": "<?= $productId ?>",
+                            "classType": "<?= $type ?>"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>
+

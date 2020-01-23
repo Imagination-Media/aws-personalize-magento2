@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Amazon AWS Personalize integration (https://docs.aws.amazon.com/personalize/index.html)
+ *
+ * Use AWS Personalize to generate recommendations
+ *
+ * @package     ImaginationMedia\AwsPersonalize
+ * @author      Igor Ludgero Miura <igor@imaginationmedia.com>
+ * @copyright   Copyright (c) 2019 - 2020 Imagination Media (https://www.imaginationmedia.com/)
+ * @license     https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="ImaginationMedia_AwsPersonalize">
+        <sequence>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Quote"/>
+            <module name="Magento_Sales"/>
+        </sequence>
+    </module>
+</config>

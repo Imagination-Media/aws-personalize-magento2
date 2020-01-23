@@ -1,0 +1,34 @@
+{
+  "name": "imaginationmedia/aws-personalize-magento2",
+  "description": "Use AWS Personalize to generate product recommendations for customers in a Magento 2 store",
+  "version" : "1.0.0",
+  "require": {
+    "aws/aws-sdk-php" : "^3.130",
+    "magento/framework": ">=102.0",
+    "magento/module-catalog" : ">=100.3",
+    "magento/module-customer" : ">=100.3",
+    "magento/module-quote" : ">=100.3",
+    "magento/module-sales" : ">=100.3",
+    "php": ">=7.2"
+  },
+  "type": "magento2-module",
+  "license": [
+    "OSL-3.0"
+  ],
+  "authors": [
+    {
+      "name": "Igor Ludgero Miura",
+      "email": "igor@imaginationmedia.com",
+      "homepage": "http://www.imaginationmedia.com/",
+      "role": "Lead Developer"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "ImaginationMedia\\AwsPersonalize\\": ""
+    }
+  }
+}

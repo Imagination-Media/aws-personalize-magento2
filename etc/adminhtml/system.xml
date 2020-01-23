@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Amazon AWS Personalize integration (https://docs.aws.amazon.com/personalize/index.html)
+ *
+ * Use AWS Personalize to generate recommendations
+ *
+ * @package     ImaginationMedia\AwsPersonalize
+ * @author      Igor Ludgero Miura <igor@imaginationmedia.com>
+ * @copyright   Copyright (c) 2019 - 2020 Imagination Media (https://www.imaginationmedia.com/)
+ * @license     https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="aws" translate="label" sortOrder="900">
+            <label>Amazon AWS</label>
+        </tab>
+        <section id="personalize" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Personalize</label>
+            <tab>aws</tab>
+            <resource>ImaginationMedia_AwsPersonalize::settings</resource>
+            <group id="general" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General</label>
+                <comment>General config used to setup the Personalize integration</comment>
+                <field id="profile" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Profile</label>
+                    <comment>Enables you to specify which profile to use when credentials are created from the AWS credentials file in your HOME directory. This setting overrides the AWS_PROFILE environment variable.</comment>
+                </field>
+                <field id="version" translate="label, comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Version</label>
+                    <comment>The version of the web service to use (e.g., 2006-03-01).</comment>
+                </field>
+                <field id="region" translate="label, comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Region</label>
+                    <comment><![CDATA[AWS Region to connect to. See the <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html" target="_blank">AWS Regions and Endpoints</a> for a list of available Regions.]]></comment>
+                </field>
+                <field id="campaignArn" translate="label, comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>campaignArn</label>
+                    <comment>The ARN of the campaign responsible to generate the related/recommended products.</comment>
+                    <depends>
+                        <field id="*/*/*/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="recommendation" translate="label, comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Recommendations/Related products</label>
+                <comment>Enable product recommendation and related products using AWS personalize engine</comment>
+                <group id="recommendation" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Product recommendation</label>
+                    <comment>Generate product recommendation using AWS Personalize.</comment>
+                    <field id="enable" translate="label, comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Product Recommendation</label>
+                        <comment>Enable this option to use AWS Personalize to generated product recommendations instead of Magento related products engine.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+                <group id="related" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Related products</label>
+                    <comment>Get related products through AWS personalize instead of Magento related products engine.</comment>
+                    <field id="enable" translate="label, comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+            </group>
+            <group id="export" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Export</label>
+                <comment>Use the following sections to setup the data to be used to communicate to AWS and populate the AWS Personalize's datasets.</comment>
+                <group id="customer" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Customers</label>
+                    <comment>Setup the configuration used for the customers dataset.</comment>
+                    <field id="bucketName" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Bucket Name</label>
+                        <comment>The name of the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example: bucket-name</comment>
+                    </field>
+                    <field id="filePath" translate="label, comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Filepath</label>
+                        <comment>The filepath to the csv file inside the S3 bitbucket, for example folder1/folder2/training-data.csv</comment>
+                    </field>
+                    <field id="datasetArn" translate="label, comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>DatasetArn</label>
+                        <comment>The ARN of the dataset that receives the imported data.</comment>
+                    </field>
+                    <field id="jobName" translate="label, comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>JobName</label>
+                        <comment>The name for the dataset import job. It will the value defined here + the date and time.</comment>
+                    </field>
+                    <field id="roleArn" translate="label, comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>RoleArn</label>
+                        <comment>The ARN of the IAM role that has permissions to read from the Amazon S3 data source.</comment>
+                    </field>
+                </group>
+                <group id="product" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Products</label>
+                    <comment>Setup the configuration used for the products dataset.</comment>
+                    <field id="bucketName" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Bucket Name</label>
+                        <comment>The name of the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example: bucket-name</comment>
+                    </field>
+                    <field id="filePath" translate="label, comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Filepath</label>
+                        <comment>The filepath to the csv file inside the S3 bitbucket, for example folder1/folder2/training-data.csv</comment>
+                    </field>
+                    <field id="datasetArn" translate="label, comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>DatasetArn</label>
+                        <comment>The ARN of the dataset that receives the imported data.</comment>
+                    </field>
+                    <field id="jobName" translate="label, comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>JobName</label>
+                        <comment>The name for the dataset import job. It will the value defined here + the date and time.</comment>
+                    </field>
+                    <field id="roleArn" translate="label, comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>RoleArn</label>
+                        <comment>The ARN of the IAM role that has permissions to read from the Amazon S3 data source.</comment>
+                    </field>
+                </group>
+                <group id="interaction" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Interaction</label>
+                    <comment>Setup the configuration used for the interaction dataset.</comment>
+                    <field id="bucketName" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Bucket Name</label>
+                        <comment>The name of the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example: bucket-name</comment>
+                    </field>
+                    <field id="filePath" translate="label, comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Filepath</label>
+                        <comment>The filepath to the csv file inside the S3 bitbucket, for example folder1/folder2/training-data.csv</comment>
+                    </field>
+                    <field id="datasetArn" translate="label, comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>DatasetArn</label>
+                        <comment>The ARN of the dataset that receives the imported data.</comment>
+                    </field>
+                    <field id="jobName" translate="label, comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>JobName</label>
+                        <comment>The name for the dataset import job. It will the value defined here + the date and time.</comment>
+                    </field>
+                    <field id="roleArn" translate="label, comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>RoleArn</label>
+                        <comment>The ARN of the IAM role that has permissions to read from the Amazon S3 data source.</comment>
+                    </field>
+                </group>
+            </group>
+            <group id="events" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Events</label>
+                <comment>Setup events that can be triggered according to customer actions.</comment>
+                <group id="interactions" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Interactions</label>
+                    <comment>Populate the interactions model every time a customer places an order.</comment>
+                    <field id="tracking_id" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Tracking ID</label>
+                        <comment>The tracking id of your event.</comment>
+                    </field>
+                    <field id="event_type" translate="label, comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Event type</label>
+                        <comment>The tracking event type.</comment>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

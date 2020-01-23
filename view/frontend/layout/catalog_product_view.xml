@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Amazon AWS Personalize integration (https://docs.aws.amazon.com/personalize/index.html)
+ *
+ * Use AWS Personalize to generate recommendations
+ *
+ * @package     ImaginationMedia\AwsPersonalize
+ * @author      Igor Ludgero Miura <igor@imaginationmedia.com>
+ * @copyright   Copyright (c) 2019 - 2020 Imagination Media (https://www.imaginationmedia.com/)
+ * @license     https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Rewrite related products block -->
+        <referenceBlock name="catalog.product.related">
+            <action method="setTemplate" ifconfig="personalize/recommendation/related/enable">
+                <argument name="template" xsi:type="string">ImaginationMedia_AwsPersonalize::product/view/related/list.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <!-- Product recommendation for logged in customers -->
+            <block class="Magento\Framework\View\Element\Template" name="aws.personalize.recommendation"
+                   after="-" template="ImaginationMedia_AwsPersonalize::product/view/related/list.phtml"
+                   ifconfig="personalize/recommendation/recommendation/enable">
+                <arguments>
+                    <argument name="type" xsi:type="string">recommendation</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

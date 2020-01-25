@@ -1,7 +1,7 @@
 {
   "name": "imaginationmedia/aws-personalize-magento2",
   "description": "Use AWS Personalize to generate product recommendations for customers in a Magento 2 store",
-  "version" : "1.0.0",
+  "version" : "1.0.1",
   "require": {
     "aws/aws-sdk-php" : "^3.130",
     "magento/framework": ">=102.0",

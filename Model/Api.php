@@ -134,7 +134,8 @@ class Api
                     "name",
                     "url_key",
                     "image",
-                    "sku"
+                    "sku",
+                    "price"
                 ], "left")
                 ->addAttributeToFilter("entity_id", ['in' => $ids]);
 

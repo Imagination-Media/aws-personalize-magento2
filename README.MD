@@ -5,10 +5,8 @@
 
 # Amazon Personalize for Magento 2
 
-## Community Contribution
-This is a Magento community contribution offered by [Imagination Media](https://www.imaginationmedia.com/), a Magento partner, as a submission for the Magento innovations labs program.
-[Magento Innovation Labs](https://magento.com/innovations-lab) it's a program that allows the community to show creative and innovative solutions for e-commerce, using the Magento platform. Every year a new round is available for the Magento community to create and show how is possible to innovate the e-commerce industry using the flexibility that only Magento has.
 ### Magento Innovations Lab Partners With Amazon Web Services (AWS)
+[Magento Innovation Labs](https://magento.com/innovations-lab) it's a program that allows the community to show creative and innovative solutions for e-commerce, using the Magento platform. Every year a new round is available for the Magento community to create and show how is possible to innovate the e-commerce industry using the flexibility that only Magento has.
 This integration was developed thinking about the partnership between Magento and Amazon, as one of the recommended solutions that can be integrated with Magento. For more info please check [https://magento.com/blog/magento-news/magento-innovations-lab-teams-amazon-web-services-aws](https://magento.com/blog/magento-news/magento-innovations-lab-teams-amazon-web-services-aws)
 
 ## What is AWS Personalize
